@@ -1,0 +1,5 @@
+npx protoc --ts_out ".\src\generated" --ts_opt long_type_string --proto_path E:\entwicklung\GoProjects\orion\api\proto\ E:\entwicklung\GoProjects\orion\api\proto\*.proto
+npx protoc --ts_out ".\src\generated" --ts_opt long_type_string --proto_path E:\entwicklung\GoProjects\laniakea\protos\ E:\entwicklung\GoProjects\laniakea\protos\*.proto
+
+rem protoc --plugin="protoc-gen-grpc-web=.\node_modules\.bin\protoc-gen-grpc-web.cmd" --proto_path=E:\entwicklung\GoProjects\gems\api\proto\ --js_out=import_style=commonjs,binary:".\src\generated" --grpc-web_out=import_style=typescript,mode=grpcwebtext:".\src\generated" E:\entwicklung\GoProjects\gems\api\proto\*.proto
+rem protoc --plugin="protoc-gen-ts=.\node_modules\.bin\protoc-gen-ts.cmd" --proto_path=E:\entwicklung\GoProjects\laniakea\protos\ --ts_opt=esModuleInterop=true --js_out=".\src\generated" --ts_out=".\src\generated" E:\entwicklung\GoProjects\laniakea\protos\*.proto

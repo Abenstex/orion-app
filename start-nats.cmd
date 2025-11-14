@@ -1,0 +1,1 @@
+nats-server -config "C:\Users\chris\scoop\apps\nats-server\2.12.1\nats-server.conf"
