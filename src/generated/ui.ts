@@ -45,9 +45,9 @@ export interface Translation {
      */
     lastChangedDate?: string;
     /**
-     * @generated from protobuf field: Uuid ID = 7
+     * @generated from protobuf field: Uuid id = 7
      */
-    iD?: Uuid;
+    id?: Uuid;
 }
 /**
  * @generated from protobuf message TranslationChangedEvent
@@ -176,6 +176,23 @@ export interface GetAllTranslLocaleReply {
     locales: TranslLocale[];
 }
 /**
+ * @generated from protobuf message DuplicateLocaleRequest
+ */
+export interface DuplicateLocaleRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: TranslLocale locale = 2
+     */
+    locale?: TranslLocale;
+    /**
+     * @generated from protobuf field: string originalLanguage = 3
+     */
+    originalLanguage: string;
+}
+/**
  * @generated from protobuf message Dialog
  */
 export interface Dialog {
@@ -259,7 +276,7 @@ class Translation$Type extends MessageType<Translation> {
             { no: 4, name: "country", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "lastChangedBy", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "lastChangedDate", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/ },
-            { no: 7, name: "ID", kind: "message", jsonName: "ID", T: () => Uuid }
+            { no: 7, name: "id", kind: "message", T: () => Uuid }
         ]);
     }
     create(value?: PartialMessage<Translation>): Translation {
@@ -295,8 +312,8 @@ class Translation$Type extends MessageType<Translation> {
                 case /* optional int64 lastChangedDate */ 6:
                     message.lastChangedDate = reader.int64().toString();
                     break;
-                case /* Uuid ID */ 7:
-                    message.iD = Uuid.internalBinaryRead(reader, reader.uint32(), options, message.iD);
+                case /* Uuid id */ 7:
+                    message.id = Uuid.internalBinaryRead(reader, reader.uint32(), options, message.id);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -328,9 +345,9 @@ class Translation$Type extends MessageType<Translation> {
         /* optional int64 lastChangedDate = 6; */
         if (message.lastChangedDate !== undefined)
             writer.tag(6, WireType.Varint).int64(message.lastChangedDate);
-        /* Uuid ID = 7; */
-        if (message.iD)
-            Uuid.internalBinaryWrite(message.iD, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
+        /* Uuid id = 7; */
+        if (message.id)
+            Uuid.internalBinaryWrite(message.id, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -870,6 +887,67 @@ class GetAllTranslLocaleReply$Type extends MessageType<GetAllTranslLocaleReply> 
  * @generated MessageType for protobuf message GetAllTranslLocaleReply
  */
 export const GetAllTranslLocaleReply = new GetAllTranslLocaleReply$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DuplicateLocaleRequest$Type extends MessageType<DuplicateLocaleRequest> {
+    constructor() {
+        super("DuplicateLocaleRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "locale", kind: "message", T: () => TranslLocale },
+            { no: 3, name: "originalLanguage", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<DuplicateLocaleRequest>): DuplicateLocaleRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.originalLanguage = "";
+        if (value !== undefined)
+            reflectionMergePartial<DuplicateLocaleRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: DuplicateLocaleRequest): DuplicateLocaleRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* TranslLocale locale */ 2:
+                    message.locale = TranslLocale.internalBinaryRead(reader, reader.uint32(), options, message.locale);
+                    break;
+                case /* string originalLanguage */ 3:
+                    message.originalLanguage = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: DuplicateLocaleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* TranslLocale locale = 2; */
+        if (message.locale)
+            TranslLocale.internalBinaryWrite(message.locale, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* string originalLanguage = 3; */
+        if (message.originalLanguage !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.originalLanguage);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message DuplicateLocaleRequest
+ */
+export const DuplicateLocaleRequest = new DuplicateLocaleRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Dialog$Type extends MessageType<Dialog> {
     constructor() {

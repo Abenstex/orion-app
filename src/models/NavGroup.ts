@@ -1,14 +1,13 @@
-import type NavItem from "./NavItem"
+import type NavItem from './NavItem'
 
 export default class NavGroup {
-    title: string = '';
-    icon: string = '';
-    items: NavItem[] = [];
+  title = ''
+  icon = ''
+  items: NavItem[] = []
 
-    constructor(title: string, icon: string, items: NavItem[]) {
-        this.title = title;
-        this.icon = icon;
-        this.items = items;
-    }
-
+  constructor (title: string, icon: string, items: NavItem[]) {
+    this.title = title
+    this.icon = icon
+    this.items = items
+  }
 }

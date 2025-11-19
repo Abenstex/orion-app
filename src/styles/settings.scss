@@ -5,7 +5,7 @@
  */
 
 // https://vuetifyjs.com/features/sass-variables/`
-@use 'vuetify/settings' with ( // Place SASS variable overrides here
+@forward 'vuetify/settings' with ( // Place SASS variable overrides here
     $expansion-panel-active-title-min-height: 48px,
     $font-size-root: 18px,
     $border-radius-root: 12px,

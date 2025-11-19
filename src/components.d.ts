@@ -12,6 +12,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
+    ConfirmDialog: typeof import('./components/dialogs/ConfirmDialog.vue')['default']
+    DuplicateLocaleDialog: typeof import('./components/ui/DuplicateLocaleDialog.vue')['default']
+    EditTranslationDialog: typeof import('./components/ui/EditTranslationDialog.vue')['default']
+    HeartbeatDetailsView: typeof import('./components/admin/HeartbeatDetailsView.vue')['default']
+    HeartbeatView: typeof import('./components/admin/HeartbeatView.vue')['default']
     Home: typeof import('./components/Home.vue')['default']
     Login: typeof import('./components/Login.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

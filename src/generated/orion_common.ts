@@ -120,9 +120,9 @@ export interface BaseInformation {
      */
     obsolete: boolean;
     /**
-     * @generated from protobuf field: Uuid ID = 11
+     * @generated from protobuf field: Uuid id = 11
      */
-    iD?: Uuid;
+    id?: Uuid;
     /**
      * @generated from protobuf field: bool active = 12
      */
@@ -154,9 +154,9 @@ export interface Uuid {
  */
 export interface Comment {
     /**
-     * @generated from protobuf field: Uuid ID = 1
+     * @generated from protobuf field: Uuid id = 1
      */
-    iD?: Uuid;
+    id?: Uuid;
     /**
      * @generated from protobuf field: string comment = 2
      */
@@ -577,7 +577,7 @@ class BaseInformation$Type extends MessageType<BaseInformation> {
             { no: 8, name: "deletedBy", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 10, name: "obsolete", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 11, name: "ID", kind: "message", jsonName: "ID", T: () => Uuid },
+            { no: 11, name: "id", kind: "message", T: () => Uuid },
             { no: 12, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 13, name: "checkedOutDate", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/ },
             { no: 14, name: "checkedOutBy", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
@@ -632,8 +632,8 @@ class BaseInformation$Type extends MessageType<BaseInformation> {
                 case /* bool obsolete */ 10:
                     message.obsolete = reader.bool();
                     break;
-                case /* Uuid ID */ 11:
-                    message.iD = Uuid.internalBinaryRead(reader, reader.uint32(), options, message.iD);
+                case /* Uuid id */ 11:
+                    message.id = Uuid.internalBinaryRead(reader, reader.uint32(), options, message.id);
                     break;
                 case /* bool active */ 12:
                     message.active = reader.bool();
@@ -689,9 +689,9 @@ class BaseInformation$Type extends MessageType<BaseInformation> {
         /* bool obsolete = 10; */
         if (message.obsolete !== false)
             writer.tag(10, WireType.Varint).bool(message.obsolete);
-        /* Uuid ID = 11; */
-        if (message.iD)
-            Uuid.internalBinaryWrite(message.iD, writer.tag(11, WireType.LengthDelimited).fork(), options).join();
+        /* Uuid id = 11; */
+        if (message.id)
+            Uuid.internalBinaryWrite(message.id, writer.tag(11, WireType.LengthDelimited).fork(), options).join();
         /* bool active = 12; */
         if (message.active !== false)
             writer.tag(12, WireType.Varint).bool(message.active);
@@ -765,7 +765,7 @@ export const Uuid = new Uuid$Type();
 class Comment$Type extends MessageType<Comment> {
     constructor() {
         super("Comment", [
-            { no: 1, name: "ID", kind: "message", jsonName: "ID", T: () => Uuid },
+            { no: 1, name: "id", kind: "message", T: () => Uuid },
             { no: 2, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "createdDate", kind: "scalar", T: 3 /*ScalarType.INT64*/ },
             { no: 4, name: "createdBy", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
@@ -785,8 +785,8 @@ class Comment$Type extends MessageType<Comment> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* Uuid ID */ 1:
-                    message.iD = Uuid.internalBinaryRead(reader, reader.uint32(), options, message.iD);
+                case /* Uuid id */ 1:
+                    message.id = Uuid.internalBinaryRead(reader, reader.uint32(), options, message.id);
                     break;
                 case /* string comment */ 2:
                     message.comment = reader.string();
@@ -809,9 +809,9 @@ class Comment$Type extends MessageType<Comment> {
         return message;
     }
     internalBinaryWrite(message: Comment, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* Uuid ID = 1; */
-        if (message.iD)
-            Uuid.internalBinaryWrite(message.iD, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* Uuid id = 1; */
+        if (message.id)
+            Uuid.internalBinaryWrite(message.id, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* string comment = 2; */
         if (message.comment !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.comment);

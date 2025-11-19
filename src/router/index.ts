@@ -12,38 +12,46 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { getUserStore } from '../stores/UserStore'
 
 const routes: RouteRecordRaw[] = [
-    {
-        path: '/',
-        name: 'Home',
-        component: () => import('../components/Home.vue'),
-        meta: {
-            title: 'Home',
-        },
-        /*beforeEnter(to, from, next) {
+  {
+    path: "/",
+    name: "Home",
+    component: () => import("../components/Home.vue"),
+    meta: {
+      title: "Home",
+    },
+    /*beforeEnter(to, from, next) {
             if (!store.isLoggedIn) {
                 next({ path: 'home' });
             } else {
                 next();
             }
         },*/
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("../components/Login.vue"),
+    meta: {
+      title: "Login",
     },
-    {
-        path: '/login',
-        name: 'Login',
-        component: () => import('../components/Login.vue'),
-        meta: {
-            title: 'Login',
-        },
+  },
+  {
+    path: "/ui/transl",
+    name: "Translation",
+    component: () => import("../components/ui/TranslationsView.vue"),
+    meta: {
+      title: "Ui.Translation",
     },
-    {
-        path: '/ui/transl',
-        name: 'Translation',
-        component: () => import('../components/ui/TranslationsView.vue'),
-        meta: {
-            title: 'Ui.Translation',
-        },
+  },
+  {
+    path: "/admin/heartbeats",
+    name: "Heartbeats",
+    component: () => import("../components/admin/HeartbeatView.vue"),
+    meta: {
+      title: "General.Heartbeat",
     },
-]
+  },
+];
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,9 +77,9 @@ router.isReady().then(() => {
     localStorage.removeItem('vuetify:dynamic-reload')
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to, _from) => {
     let store = getUserStore()
-    console.log(to.name);
+    //console.log(to.name);
 
     if (!store.isLoggedIn &&
         (to.name != 'Login' && to.name != 'Home')

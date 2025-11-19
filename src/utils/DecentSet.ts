@@ -1,30 +1,48 @@
 export default class DecentSet<T> {
-    private items: T[] = [];
-    private getKey: (item: T) => string;
+  private items: T[] = [];
+  private getKey: (item: T) => string;
 
-    constructor(getKey: (item: T) => string) {
-        this.getKey = getKey;
-    }
+  constructor(getKey: (item: T) => string) {
+    this.getKey = getKey;
+  }
 
-    add(item: T): void {
-        const key = this.getKey(item);
-        if (!this.items.some(existing => this.getKey(existing) === key)) {
-            this.items.push(item);
-        }
-    }
+  clear(): void {
+    this.items = [];
+  }
 
-    has(item: T): boolean {
-        return this.items.some(existing => this.getKey(existing) === this.getKey(item));
+  add(item: T): void {
+    const key = this.getKey(item);
+    if (!this.items.some((existing) => this.getKey(existing) === key)) {
+      this.items.push(item);
     }
+  }
 
-    remove(item: T): void {
-        const key = this.getKey(item);
-        this.items.forEach((item, index) => {
-            if (this.getKey(item) === key) this.items.splice(index, 1);
-        });
+  replace(item: T): void {
+    const key = this.getKey(item);
+    if (!this.items.some((existing) => this.getKey(existing) === key)) {
+      this.items.push(item);
+    } else {
+      this.remove(item);
+      this.items.push(item);
     }
+  }
 
-    values(): T[] {
-        return [...this.items];
+  has(item: T): boolean {
+    return this.items.some(
+      (existing) => this.getKey(existing) === this.getKey(item)
+    );
+  }
+
+  remove(item: T): void {
+    const key = this.getKey(item);
+    for (const [index, item] of this.items.entries()) {
+      if (this.getKey(item) === key) {
+        this.items.splice(index, 1);
+      }
     }
+  }
+
+  values(): T[] {
+    return [...this.items];
+  }
 }

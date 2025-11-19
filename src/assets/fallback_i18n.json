@@ -1,0 +1,21 @@
+{
+    "de": [
+        {"key": "General.Login", "translation": "Einloggen"},
+        {
+            "key": "name",
+            "translation": "Name"
+        },
+        {
+            "key": "password",
+            "translation": "Passwort"
+        },
+        {
+            "key": "waitingForLogin",
+            "translation": "Verbindung wird hergestellt..."
+        },
+        {
+            "key": "General.Home",
+            "translation": "Startseite"
+        }
+    ]
+}
