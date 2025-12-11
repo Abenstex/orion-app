@@ -11,6 +11,7 @@ import { useAppStore } from './app'
 import { getHeartbeatStore } from './HeartbeatStore'
 import { getLanguageStore } from './LanguageStore'
 import { getStatusStore } from './StatusStore'
+import { getConfigParameterStore } from './ConfigParameterStore'
 
 // https://github.com/timostamm/protobuf-ts/blob/main/MANUAL.md
 
@@ -20,9 +21,33 @@ export const getUserStore = defineStore('userStore', () => {
   const heartbeatStore = getHeartbeatStore()
   const isAdmin = computed(() => user.value != undefined && user.value.isAdmin)
   const isLoggedIn = computed(() => user.value != undefined && token.value.length > 0)
+  const tokenExpiresDate = ref<Date | undefined>(undefined);
   const appName = 'orion.user'
 
-  function encrypteData (data: string) {
+  function checkTokenExpiry() : boolean {
+    let difference = new Date().getMinutes() - 5;
+    if (tokenExpiresDate !== undefined && tokenExpiresDate.value! <= new Date()) {
+      getStatusStore().setError(
+        getLanguageStore().trP("General.Error.TokenExpired", [
+          `${tokenExpiresDate.value?.toLocaleDateString()}: ${tokenExpiresDate.value?.toLocaleTimeString()}`,
+        ])
+      );
+      return false;
+    } else if (
+      tokenExpiresDate !== undefined &&
+      tokenExpiresDate.value! >= (new Date(difference))
+    ) {
+      getStatusStore().setError(
+        getLanguageStore().trP("General.Warning.TokenExpiryIn", [
+          `${tokenExpiresDate.value?.toLocaleDateString()}: ${tokenExpiresDate.value?.toLocaleTimeString()}`,
+        ])
+      );
+    }
+
+    return true;
+  }
+
+  function encryptData (data: string) {
     if (data) {
       const key = CryptoJS.PBKDF2('21pfeKl4t5ch4D4m1sch4', 'salt', { keySize: 256 / 32, iterations: 100 })
       const iv = CryptoJS.enc.Utf8.parse('234khwrn39q') // Convert string to WordArray
@@ -33,7 +58,7 @@ export const getUserStore = defineStore('userStore', () => {
 
   async function login (userName: string, password: string) {
     try {
-      const pass: string = encrypteData(password)!
+      const pass: string = encryptData(password)!
       //console.log('Pass: ', pass)
       const connInfo: ConnectionInformation | undefined = heartbeatStore.getBestSuitedConnection(appName)
       if (connInfo == undefined) {
@@ -53,13 +78,21 @@ export const getUserStore = defineStore('userStore', () => {
       if (data.header!.successful) {
         token.value = data.token
         await getLanguageStore().getTranslationsForLocale({ language: import.meta.env.VITE_DEFAULT_LANGUAGE, country: '' })
-        await useAppStore().loadAllLocales()
+        await useAppStore().loadAllLocales();
+        await getConfigParameterStore().getAllParameters();
+        await getConfigParameterStore().startListening();
         user.value = data.user!
+        tokenExpiresDate.value = new Date(Number(data.tokenExpires));
+        //console.log(`Token expiry: ${data.tokenExpires}`);
+        //console.log(
+        //  `Token expires: ${tokenExpiresDate.value.toLocaleDateString()}: ${tokenExpiresDate.value.toLocaleTimeString()}`
+        //);
         router.push('/')
       } else {
         getStatusStore().setError(data.header!.errorMessage)
       }
     } catch (error) {
+      console.log('Error: ', error);
       if (axios.isAxiosError(error)) {
         const reply: LoginReply = error.response!.data
         // ToDo - translate
@@ -72,5 +105,5 @@ export const getUserStore = defineStore('userStore', () => {
     }
   }
 
-  return { user, token, isAdmin, login, isLoggedIn }
+  return { user, token, isAdmin, login, isLoggedIn, checkTokenExpiry }
 })

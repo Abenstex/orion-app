@@ -32,23 +32,24 @@
       </template>
 
       <template v-slot:item.startedTime="{ item }">
-        <span>{{ new Date(item.startedTime).toLocaleString() }}</span>
+        <span>{{ new Date(Number(item.startedTime)).toLocaleString() }}</span>
       </template>
       <template v-slot:item.currentTime="{ item }">
-        <span>{{ new Date(item.currentTime).toLocaleString() }}</span>
+        <span>{{ new Date(Number(item.currentTime)).toLocaleString() }}</span>
       </template>
 
       <template #item.actions="{ item }">
         <div class="d-flex ga-2 justify-end">
           <v-icon
             color="medium-emphasis"
-            icon="mdi-details"
+            icon="mdi-chart-timeline-variant"
             size="small"
-            @click="viewDetails(item.appName, item.hostAddress, item.port)"
+            @click="viewDetails(item)"
           />
         </div>
       </template>
     </v-data-table>
+    <heartbeat-details-view v-if="heartbeatStore.selectedHeartbeat != undefined" :visible="detailsVisible" />
   </v-sheet>
 </template>
 <script setup lang="ts">
@@ -61,9 +62,10 @@ import { getHeartbeatStore } from "@/stores/HeartbeatStore";
 
 type ReadonlyHeaders = VDataTable["$props"]["headers"];
 
-const selectedHeartbeat = ref<Heartbeat | undefined>(undefined);
+//const selectedHeartbeat = ref<Heartbeat | undefined>(undefined);
 const lang = getLanguageStore();
 const heartbeatStore = getHeartbeatStore();
+const detailsVisible = ref<boolean>(false);
 
 const headers: ReadonlyHeaders = [
   { title: lang.tr("Heartbeat.AppName"), key: "appName", align: "start" },
@@ -80,5 +82,7 @@ const headers: ReadonlyHeaders = [
   },
 ];
 
-function viewDetails(appName: string, hostAddress: string, port: number) {}
+function viewDetails(hb: Heartbeat) {
+  heartbeatStore.setSelectedHeartbeat(hb);
+}
 </script>

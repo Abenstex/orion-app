@@ -52,7 +52,7 @@
             <v-text-field
               v-if="props.translationToEdit.lastChangedDate != undefined"
               :label="lang.tr('General.LastChangedDate')"
-              :model-value="toReadableDateTime(translationToEdit!.lastChangedDate)"
+              :model-value="toReadableDateTime(translationToEdit!.lastChangedDate!)"
               readonly
             />
           </v-col>
@@ -78,7 +78,8 @@
 
   const lang = getLanguageStore()
 
-  defineEmits(['cancel', 'save'])
+  const emit = defineEmits(['cancel', 'save'])
 
-  const props = defineProps<{ showEditDialog: boolean, translationToEdit: Translation | undefined }>()
+const props = defineProps<{ showEditDialog: boolean, translationToEdit: Translation | undefined }>()
+
 </script>

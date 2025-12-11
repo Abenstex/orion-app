@@ -12,16 +12,23 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
+    BaseInformationWidget: typeof import('./components/BaseInformationWidget.vue')['default']
     ConfirmDialog: typeof import('./components/dialogs/ConfirmDialog.vue')['default']
     DuplicateLocaleDialog: typeof import('./components/ui/DuplicateLocaleDialog.vue')['default']
+    EditParameterDialog: typeof import('./components/misc/EditParameterDialog.vue')['default']
+    EditRequestFilterDescriptorDialog: typeof import('./components/misc/EditRequestFilterDescriptorDialog.vue')['default']
     EditTranslationDialog: typeof import('./components/ui/EditTranslationDialog.vue')['default']
     HeartbeatDetailsView: typeof import('./components/admin/HeartbeatDetailsView.vue')['default']
     HeartbeatView: typeof import('./components/admin/HeartbeatView.vue')['default']
     Home: typeof import('./components/Home.vue')['default']
     Login: typeof import('./components/Login.vue')['default']
+    ParametersView: typeof import('./components/misc/ParametersView.vue')['default']
+    QueryBuilderDialog: typeof import('./components/dialogs/QueryBuilderDialog.vue')['default']
+    RequestFilterDescriptorsView: typeof import('./components/misc/RequestFilterDescriptorsView.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SideBar: typeof import('./components/SideBar.vue')['default']
+    SpecEditor: typeof import('./components/spec/SpecEditor.vue')['default']
     TranslationsView: typeof import('./components/ui/TranslationsView.vue')['default']
   }
 }

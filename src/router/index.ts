@@ -51,6 +51,32 @@ const routes: RouteRecordRaw[] = [
       title: "General.Heartbeat",
     },
   },
+  {
+    path: "/admin/config",
+    name: "Configuration",
+    component: () => import("../components/misc/ParametersView.vue"),
+    meta: {
+      title: "General.Config",
+    },
+  },
+  {
+    path: "/admin/filters",
+    name: "Filter",
+    component: () =>
+      import("../components/misc/RequestFilterDescriptorsView.vue"),
+    meta: {
+      title: "General.Filter",
+    },
+  },
+  {
+    path: "/spec/editor",
+    name: "Spec-Editor",
+    component: () =>
+      import("../components/spec/SpecEditor.vue"),
+    meta: {
+      title: "General.SpecEditor",
+    },
+  },
 ];
 
 const router = createRouter({
@@ -79,10 +105,13 @@ router.isReady().then(() => {
 
 router.beforeEach(async (to, _from) => {
     let store = getUserStore()
-    //console.log(to.name);
+  //console.log(to.name);
+  if (!store.checkTokenExpiry) {
+    return { name: "Login" };
+  }
 
     if (!store.isLoggedIn &&
-        (to.name != 'Login' && to.name != 'Home')
+        (to.name !== 'Login' && to.name !== 'Home')
     ) {
         return { name: 'Login' }
     }

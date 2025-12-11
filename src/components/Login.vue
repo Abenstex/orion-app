@@ -66,7 +66,7 @@
   }
 
   function required (v: string) {
-    return !!v || 'Field is required'
+    return !!v || languageStore.tr('General.InputRequired');
   }
 
 </script>

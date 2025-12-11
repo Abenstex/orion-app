@@ -4,12 +4,19 @@ import { ref } from 'vue'
 export const getStatusStore = defineStore('statusStore', () => {
   const statusMessage = ref<string | undefined>('')
   const errorMessage = ref<string | undefined>('')
+  const warnMessage = ref<string | undefined>("");
   const loading = ref<boolean>(false)
   const hasError = ref<boolean>(false)
+  const hasWarning = ref<boolean>(false);
 
   function clearErrorMessage () {
     errorMessage.value = ''
     hasError.value = false
+  }
+
+  function clearWarnMessage() {
+    warnMessage.value = "";
+    hasWarning.value = false;
   }
 
   function setError (msg: string) {
@@ -17,9 +24,14 @@ export const getStatusStore = defineStore('statusStore', () => {
     errorMessage.value = msg
   }
 
+  function setWarning(msg: string) {
+    hasWarning.value = true;
+    warnMessage.value = msg;
+  }
+
   function getErrorMessage (): string {
     return errorMessage.value!
   }
 
-  return { statusMessage, clearErrorMessage, loading, hasError, setError, getErrorMessage }
+  return { statusMessage, clearErrorMessage, loading, hasError, setError, getErrorMessage, hasWarning, setWarning, warnMessage, clearWarnMessage }
 })
