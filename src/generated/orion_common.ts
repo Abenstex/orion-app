@@ -337,6 +337,110 @@ export interface RequestFilterDescriptor {
     obsolete: boolean;
 }
 /**
+ * @generated from protobuf message Metric
+ */
+export interface Metric {
+    /**
+     * @generated from protobuf field: string endPoint = 1
+     */
+    endPoint: string;
+    /**
+     * @generated from protobuf field: bool successful = 2
+     */
+    successful: boolean;
+    /**
+     * @generated from protobuf field: int32 httpStatus = 3
+     */
+    httpStatus: number;
+    /**
+     * @generated from protobuf field: int64 startedTime = 4
+     */
+    startedTime: bigint;
+    /**
+     * @generated from protobuf field: int64 endTime = 5
+     */
+    endTime: bigint;
+    /**
+     * @generated from protobuf field: Uuid id = 6
+     */
+    id?: Uuid;
+    /**
+     * @generated from protobuf field: optional string errorMessage = 7
+     */
+    errorMessage?: string;
+    /**
+     * @generated from protobuf field: int32 errorCode = 8
+     */
+    errorCode: number;
+}
+/**
+ * @generated from protobuf message MetricOverview
+ */
+export interface MetricOverview {
+    /**
+     * @generated from protobuf field: string endPoint = 1
+     */
+    endPoint: string;
+    /**
+     * @generated from protobuf field: int32 successfulCount = 2
+     */
+    successfulCount: number;
+    /**
+     * @generated from protobuf field: int32 errorCount = 3
+     */
+    errorCount: number;
+    /**
+     * @generated from protobuf field: float averageDuration = 4
+     */
+    averageDuration: number;
+    /**
+     * @generated from protobuf field: int32 minDuration = 5
+     */
+    minDuration: number;
+    /**
+     * @generated from protobuf field: int32 maxDuration = 6
+     */
+    maxDuration: number;
+}
+/**
+ * @generated from protobuf message AppGroup
+ */
+export interface AppGroup {
+    /**
+     * @generated from protobuf field: string name = 1
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: optional string icon = 2
+     */
+    icon?: string;
+    /**
+     * @generated from protobuf field: repeated AppNavigationItem navigationItems = 3
+     */
+    navigationItems: AppNavigationItem[];
+}
+/**
+ * @generated from protobuf message AppNavigationItem
+ */
+export interface AppNavigationItem {
+    /**
+     * @generated from protobuf field: string name = 1
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: optional string icon = 2
+     */
+    icon?: string;
+    /**
+     * @generated from protobuf field: string route = 3
+     */
+    route: string;
+    /**
+     * @generated from protobuf field: string component = 4
+     */
+    component: string;
+}
+/**
  * @generated from protobuf enum ObjectType
  */
 export enum ObjectType {
@@ -1401,3 +1505,323 @@ class RequestFilterDescriptor$Type extends MessageType<RequestFilterDescriptor> 
  * @generated MessageType for protobuf message RequestFilterDescriptor
  */
 export const RequestFilterDescriptor = new RequestFilterDescriptor$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Metric$Type extends MessageType<Metric> {
+    constructor() {
+        super("Metric", [
+            { no: 1, name: "endPoint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "successful", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "httpStatus", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "startedTime", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 5, name: "endTime", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 6, name: "id", kind: "message", T: () => Uuid },
+            { no: 7, name: "errorMessage", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "errorCode", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<Metric>): Metric {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.endPoint = "";
+        message.successful = false;
+        message.httpStatus = 0;
+        message.startedTime = 0n;
+        message.endTime = 0n;
+        message.errorCode = 0;
+        if (value !== undefined)
+            reflectionMergePartial<Metric>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Metric): Metric {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string endPoint */ 1:
+                    message.endPoint = reader.string();
+                    break;
+                case /* bool successful */ 2:
+                    message.successful = reader.bool();
+                    break;
+                case /* int32 httpStatus */ 3:
+                    message.httpStatus = reader.int32();
+                    break;
+                case /* int64 startedTime */ 4:
+                    message.startedTime = reader.int64().toBigInt();
+                    break;
+                case /* int64 endTime */ 5:
+                    message.endTime = reader.int64().toBigInt();
+                    break;
+                case /* Uuid id */ 6:
+                    message.id = Uuid.internalBinaryRead(reader, reader.uint32(), options, message.id);
+                    break;
+                case /* optional string errorMessage */ 7:
+                    message.errorMessage = reader.string();
+                    break;
+                case /* int32 errorCode */ 8:
+                    message.errorCode = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: Metric, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string endPoint = 1; */
+        if (message.endPoint !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.endPoint);
+        /* bool successful = 2; */
+        if (message.successful !== false)
+            writer.tag(2, WireType.Varint).bool(message.successful);
+        /* int32 httpStatus = 3; */
+        if (message.httpStatus !== 0)
+            writer.tag(3, WireType.Varint).int32(message.httpStatus);
+        /* int64 startedTime = 4; */
+        if (message.startedTime !== 0n)
+            writer.tag(4, WireType.Varint).int64(message.startedTime);
+        /* int64 endTime = 5; */
+        if (message.endTime !== 0n)
+            writer.tag(5, WireType.Varint).int64(message.endTime);
+        /* Uuid id = 6; */
+        if (message.id)
+            Uuid.internalBinaryWrite(message.id, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
+        /* optional string errorMessage = 7; */
+        if (message.errorMessage !== undefined)
+            writer.tag(7, WireType.LengthDelimited).string(message.errorMessage);
+        /* int32 errorCode = 8; */
+        if (message.errorCode !== 0)
+            writer.tag(8, WireType.Varint).int32(message.errorCode);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message Metric
+ */
+export const Metric = new Metric$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class MetricOverview$Type extends MessageType<MetricOverview> {
+    constructor() {
+        super("MetricOverview", [
+            { no: 1, name: "endPoint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "successfulCount", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 3, name: "errorCount", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "averageDuration", kind: "scalar", T: 2 /*ScalarType.FLOAT*/ },
+            { no: 5, name: "minDuration", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 6, name: "maxDuration", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<MetricOverview>): MetricOverview {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.endPoint = "";
+        message.successfulCount = 0;
+        message.errorCount = 0;
+        message.averageDuration = 0;
+        message.minDuration = 0;
+        message.maxDuration = 0;
+        if (value !== undefined)
+            reflectionMergePartial<MetricOverview>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: MetricOverview): MetricOverview {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string endPoint */ 1:
+                    message.endPoint = reader.string();
+                    break;
+                case /* int32 successfulCount */ 2:
+                    message.successfulCount = reader.int32();
+                    break;
+                case /* int32 errorCount */ 3:
+                    message.errorCount = reader.int32();
+                    break;
+                case /* float averageDuration */ 4:
+                    message.averageDuration = reader.float();
+                    break;
+                case /* int32 minDuration */ 5:
+                    message.minDuration = reader.int32();
+                    break;
+                case /* int32 maxDuration */ 6:
+                    message.maxDuration = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: MetricOverview, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string endPoint = 1; */
+        if (message.endPoint !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.endPoint);
+        /* int32 successfulCount = 2; */
+        if (message.successfulCount !== 0)
+            writer.tag(2, WireType.Varint).int32(message.successfulCount);
+        /* int32 errorCount = 3; */
+        if (message.errorCount !== 0)
+            writer.tag(3, WireType.Varint).int32(message.errorCount);
+        /* float averageDuration = 4; */
+        if (message.averageDuration !== 0)
+            writer.tag(4, WireType.Bit32).float(message.averageDuration);
+        /* int32 minDuration = 5; */
+        if (message.minDuration !== 0)
+            writer.tag(5, WireType.Varint).int32(message.minDuration);
+        /* int32 maxDuration = 6; */
+        if (message.maxDuration !== 0)
+            writer.tag(6, WireType.Varint).int32(message.maxDuration);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message MetricOverview
+ */
+export const MetricOverview = new MetricOverview$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AppGroup$Type extends MessageType<AppGroup> {
+    constructor() {
+        super("AppGroup", [
+            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "icon", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "navigationItems", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => AppNavigationItem }
+        ]);
+    }
+    create(value?: PartialMessage<AppGroup>): AppGroup {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.name = "";
+        message.navigationItems = [];
+        if (value !== undefined)
+            reflectionMergePartial<AppGroup>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: AppGroup): AppGroup {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string name */ 1:
+                    message.name = reader.string();
+                    break;
+                case /* optional string icon */ 2:
+                    message.icon = reader.string();
+                    break;
+                case /* repeated AppNavigationItem navigationItems */ 3:
+                    message.navigationItems.push(AppNavigationItem.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: AppGroup, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string name = 1; */
+        if (message.name !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.name);
+        /* optional string icon = 2; */
+        if (message.icon !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.icon);
+        /* repeated AppNavigationItem navigationItems = 3; */
+        for (let i = 0; i < message.navigationItems.length; i++)
+            AppNavigationItem.internalBinaryWrite(message.navigationItems[i], writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message AppGroup
+ */
+export const AppGroup = new AppGroup$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AppNavigationItem$Type extends MessageType<AppNavigationItem> {
+    constructor() {
+        super("AppNavigationItem", [
+            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "icon", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "route", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "component", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<AppNavigationItem>): AppNavigationItem {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.name = "";
+        message.route = "";
+        message.component = "";
+        if (value !== undefined)
+            reflectionMergePartial<AppNavigationItem>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: AppNavigationItem): AppNavigationItem {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string name */ 1:
+                    message.name = reader.string();
+                    break;
+                case /* optional string icon */ 2:
+                    message.icon = reader.string();
+                    break;
+                case /* string route */ 3:
+                    message.route = reader.string();
+                    break;
+                case /* string component */ 4:
+                    message.component = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: AppNavigationItem, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string name = 1; */
+        if (message.name !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.name);
+        /* optional string icon = 2; */
+        if (message.icon !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.icon);
+        /* string route = 3; */
+        if (message.route !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.route);
+        /* string component = 4; */
+        if (message.component !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.component);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message AppNavigationItem
+ */
+export const AppNavigationItem = new AppNavigationItem$Type();

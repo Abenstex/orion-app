@@ -10,6 +10,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { AppGroup } from "./orion_common";
 import { BaseInformation } from "./orion_common";
 import { ReplyHeader } from "./orion_common";
 import { RequestFilter } from "./orion_common";
@@ -265,6 +266,28 @@ export interface GetDialogsReply {
      * @generated from protobuf field: repeated Dialog dialogs = 2
      */
     dialogs: Dialog[];
+}
+/**
+ * @generated from protobuf message GetAppGroupsRequest
+ */
+export interface GetAppGroupsRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+}
+/**
+ * @generated from protobuf message GetAppGroupsReply
+ */
+export interface GetAppGroupsReply {
+    /**
+     * @generated from protobuf field: ReplyHeader header = 1
+     */
+    header?: ReplyHeader;
+    /**
+     * @generated from protobuf field: repeated AppGroup groups = 2
+     */
+    groups: AppGroup[];
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class Translation$Type extends MessageType<Translation> {
@@ -1262,3 +1285,103 @@ class GetDialogsReply$Type extends MessageType<GetDialogsReply> {
  * @generated MessageType for protobuf message GetDialogsReply
  */
 export const GetDialogsReply = new GetDialogsReply$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAppGroupsRequest$Type extends MessageType<GetAppGroupsRequest> {
+    constructor() {
+        super("GetAppGroupsRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader }
+        ]);
+    }
+    create(value?: PartialMessage<GetAppGroupsRequest>): GetAppGroupsRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<GetAppGroupsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAppGroupsRequest): GetAppGroupsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetAppGroupsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message GetAppGroupsRequest
+ */
+export const GetAppGroupsRequest = new GetAppGroupsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAppGroupsReply$Type extends MessageType<GetAppGroupsReply> {
+    constructor() {
+        super("GetAppGroupsReply", [
+            { no: 1, name: "header", kind: "message", T: () => ReplyHeader },
+            { no: 2, name: "groups", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => AppGroup }
+        ]);
+    }
+    create(value?: PartialMessage<GetAppGroupsReply>): GetAppGroupsReply {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.groups = [];
+        if (value !== undefined)
+            reflectionMergePartial<GetAppGroupsReply>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAppGroupsReply): GetAppGroupsReply {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* ReplyHeader header */ 1:
+                    message.header = ReplyHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* repeated AppGroup groups */ 2:
+                    message.groups.push(AppGroup.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetAppGroupsReply, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* ReplyHeader header = 1; */
+        if (message.header)
+            ReplyHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* repeated AppGroup groups = 2; */
+        for (let i = 0; i < message.groups.length; i++)
+            AppGroup.internalBinaryWrite(message.groups[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message GetAppGroupsReply
+ */
+export const GetAppGroupsReply = new GetAppGroupsReply$Type();

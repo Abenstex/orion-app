@@ -14,6 +14,7 @@ import { ReplyHeader } from "./orion_common";
 import { RequestFilter } from "./orion_common";
 import { RequestHeader } from "./orion_common";
 import { EventHeader } from "./orion_common";
+import { AppGroup } from "./orion_common";
 import { BaseInformation } from "./orion_common";
 /**
  * @generated from protobuf message User
@@ -48,13 +49,9 @@ export interface User {
      */
     lastName: string;
     /**
-     * @generated from protobuf field: repeated BaseInformation allowedApps = 8
+     * @generated from protobuf field: repeated AppGroup appGroups = 8
      */
-    allowedApps: BaseInformation[];
-    /**
-     * @generated from protobuf field: repeated BaseInformation favouriteApps = 9
-     */
-    favouriteApps: BaseInformation[];
+    appGroups: AppGroup[];
 }
 /**
  * @generated from protobuf message UserSavedEvent
@@ -217,8 +214,7 @@ class User$Type extends MessageType<User> {
             { no: 5, name: "birthday", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 6, name: "first_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "last_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "allowedApps", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => BaseInformation },
-            { no: 9, name: "favouriteApps", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => BaseInformation }
+            { no: 8, name: "appGroups", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => AppGroup }
         ]);
     }
     create(value?: PartialMessage<User>): User {
@@ -228,8 +224,7 @@ class User$Type extends MessageType<User> {
         message.email = "";
         message.firstName = "";
         message.lastName = "";
-        message.allowedApps = [];
-        message.favouriteApps = [];
+        message.appGroups = [];
         if (value !== undefined)
             reflectionMergePartial<User>(this, message, value);
         return message;
@@ -260,11 +255,8 @@ class User$Type extends MessageType<User> {
                 case /* string last_name */ 7:
                     message.lastName = reader.string();
                     break;
-                case /* repeated BaseInformation allowedApps */ 8:
-                    message.allowedApps.push(BaseInformation.internalBinaryRead(reader, reader.uint32(), options));
-                    break;
-                case /* repeated BaseInformation favouriteApps */ 9:
-                    message.favouriteApps.push(BaseInformation.internalBinaryRead(reader, reader.uint32(), options));
+                case /* repeated AppGroup appGroups */ 8:
+                    message.appGroups.push(AppGroup.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -299,12 +291,9 @@ class User$Type extends MessageType<User> {
         /* string last_name = 7; */
         if (message.lastName !== "")
             writer.tag(7, WireType.LengthDelimited).string(message.lastName);
-        /* repeated BaseInformation allowedApps = 8; */
-        for (let i = 0; i < message.allowedApps.length; i++)
-            BaseInformation.internalBinaryWrite(message.allowedApps[i], writer.tag(8, WireType.LengthDelimited).fork(), options).join();
-        /* repeated BaseInformation favouriteApps = 9; */
-        for (let i = 0; i < message.favouriteApps.length; i++)
-            BaseInformation.internalBinaryWrite(message.favouriteApps[i], writer.tag(9, WireType.LengthDelimited).fork(), options).join();
+        /* repeated AppGroup appGroups = 8; */
+        for (let i = 0; i < message.appGroups.length; i++)
+            AppGroup.internalBinaryWrite(message.appGroups[i], writer.tag(8, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

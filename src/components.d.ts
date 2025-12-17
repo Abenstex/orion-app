@@ -17,6 +17,7 @@ declare module 'vue' {
     DuplicateLocaleDialog: typeof import('./components/ui/DuplicateLocaleDialog.vue')['default']
     EditParameterDialog: typeof import('./components/misc/EditParameterDialog.vue')['default']
     EditRequestFilterDescriptorDialog: typeof import('./components/misc/EditRequestFilterDescriptorDialog.vue')['default']
+    EditStatusDialog: typeof import('./components/misc/EditStatusDialog.vue')['default']
     EditTranslationDialog: typeof import('./components/ui/EditTranslationDialog.vue')['default']
     HeartbeatDetailsView: typeof import('./components/admin/HeartbeatDetailsView.vue')['default']
     HeartbeatView: typeof import('./components/admin/HeartbeatView.vue')['default']
@@ -29,6 +30,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SideBar: typeof import('./components/SideBar.vue')['default']
     SpecEditor: typeof import('./components/spec/SpecEditor.vue')['default']
+    StatusView: typeof import('./components/misc/StatusView.vue')['default']
     TranslationsView: typeof import('./components/ui/TranslationsView.vue')['default']
   }
 }

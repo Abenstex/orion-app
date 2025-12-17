@@ -71,10 +71,17 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/spec/editor",
     name: "Spec-Editor",
-    component: () =>
-      import("../components/spec/SpecEditor.vue"),
+    component: () => import("../components/spec/SpecEditor.vue"),
     meta: {
       title: "General.SpecEditor",
+    },
+  },
+  {
+    path: "/basicdata/status",
+    name: "Statis",
+    component: () => import("../components/misc/StatusView.vue"),
+    meta: {
+      title: "General.Status",
     },
   },
 ];

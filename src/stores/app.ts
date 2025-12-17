@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-console-spaces */
-import type { GetAllTranslLocaleReply, GetAllTranslLocaleRequest, TranslLocale } from '@/generated/ui'
+import type { GetAllTranslLocaleReply, GetAllTranslLocaleRequest, GetAppGroupsReply, GetAppGroupsRequest, TranslLocale } from '@/generated/ui'
 import type ConnectionInformation from '@/models/ConnectionInformation'
 import axios from 'axios'
 // Utilities
@@ -8,12 +8,66 @@ import { buildRequestHeader, getDefaultRestHeader } from '@/utils/CommUtils'
 import { generateRandomString } from '../utils/Utils'
 import { getHeartbeatStore } from './HeartbeatStore'
 import { getStatusStore } from './StatusStore'
+import type { AppGroup } from '@/generated/orion_common'
+import router from '@/router'
 
 export const useAppStore = defineStore('app', () => {
   const clientId = ref<string>(generateRandomString(12))
   const selectedLocale = ref<TranslLocale>({ language: import.meta.env.VITE_DEFAULT_LANGUAGE, country: import.meta.env.VITE_DEFAULT_LANGUAGE.toUpperCase() })
   const availableLocales = ref<TranslLocale[]>([{ language: import.meta.env.VITE_DEFAULT_LANGUAGE, country: import.meta.env.VITE_DEFAULT_LANGUAGE.toUpperCase() }])
   const appName = 'orion.ui'
+  const appGroups = ref<AppGroup[]>([]);
+
+  async function loadAllAppGroups() {
+    try {
+      const connInfo: ConnectionInformation | undefined =
+        getHeartbeatStore().getBestSuitedConnection(appName);
+      if (connInfo == undefined) {
+        getStatusStore().setError("No connection found for app " + appName);
+        return;
+      }
+
+      const request: GetAppGroupsRequest = {
+        header: buildRequestHeader(),
+      };
+      const { data } = await axios.post<GetAppGroupsReply>(
+        connInfo.toAddress() + "/api/v1/ui/app_group/get",
+        request,
+        {
+          headers: getDefaultRestHeader("GetAppGroups"),
+        }
+      );
+      if (data.header!.successful) {
+        appGroups.value = data.groups;
+        //console.log(`Groups: ${JSON.stringify(appGroups.value)}`);
+        /*for (const group of appGroups.value) {
+          for (const item of group.navigationItems) {
+            router.addRoute({
+              path: item.route,
+              name: item.name,
+              component: () => import(item.component),
+              meta: {
+                title: item.name
+              }
+            });
+          }
+        }*/
+      } else {
+        getStatusStore().setError(data.header!.errorMessage);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const reply: GetAppGroupsReply = error.response!.data;
+        getStatusStore().setError(
+          reply.header?.errorCode + " // " + reply.header?.errorMessage
+        );
+        return;
+      } else {
+        getStatusStore().setError(JSON.stringify(error));
+        return;
+      }
+    }
+  }
 
   async function loadAllLocales () {
     try {
@@ -47,5 +101,5 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  return { clientId, selectedLocale, availableLocales, loadAllLocales }
+  return { clientId, selectedLocale, availableLocales, loadAllLocales, loadAllAppGroups, appGroups }
 })

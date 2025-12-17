@@ -22,7 +22,7 @@
   </v-app-bar>
   <SideBar :drawer-open="drawerOpen" />
   <v-main>
-    <div v-if="statusStore.loading" class="d-flex justify-center justify-space-around w-25 ga-3 ma-3 pa-3">
+    <!--div v-if="statusStore.loading" class="d-flex justify-center justify-space-around w-25 ga-3 ma-3 pa-3">
       <v-container>
         <v-row align-content="center" no-gutters style="height: 150px;">
           <v-col>
@@ -31,7 +31,20 @@
           </v-col>
         </v-row>
       </v-container>
-    </div>
+    </div-->
+    <v-dialog v-model="statusStore.loading" width="auto">
+      <v-card max-width="400" :title="lang.tr('General.LoadingData')" prepend-icon="mdi-loading">
+        <v-card-text>
+          <v-progress-circular color="primary" indeterminate />
+        </v-card-text>
+
+        <!--v-card-actions>
+          <v-spacer />
+
+          <v-btn :text="lang.tr('General.Close')" @click="statusStore.clearErrorMessage()" />
+        </v-card-actions-->
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="statusStore.hasError">
       <v-card :title="lang.tr('General.Error')" prepend-icon="mdi-alert-circle-outline">
         <v-card-text>

@@ -36,7 +36,35 @@
         <v-list-item-title>{{ item.title }}</v-list-item-title>
       </v-list-item>
       <v-divider />
-      <v-list-group v-for="group in commonLoggedInGroups" :value="group.title">
+      <v-list-group
+        v-if="appStore.appGroups != undefined"
+        v-for="group in appStore.appGroups"
+        :value="group.name"
+      >
+        <template v-slot:activator="{ props }">
+          <v-list-item
+            class="smaller-font"
+            v-bind="props"
+            density="comfortable"
+            :prepend-icon="group.icon"
+            size="small"
+            :title="lang.tr(`Navigation.${group.name}`)"
+          />
+        </template>
+        <v-list-item
+          class="smaller-font"
+          v-for="item in group.navigationItems"
+          :key="item.name"
+          density="comfortable"
+          :prepend-icon="item.icon"
+          size="small"
+          :title="item.name"
+          :to="item.route"
+        />
+
+        <v-divider />
+      </v-list-group>
+      <!--v-list-group v-for="group in commonLoggedInGroups" :value="group.title">
         <template v-slot:activator="{ props }">
           <v-list-item
             class="smaller-font"
@@ -115,16 +143,16 @@
           :to="item.route"
         />
         <v-divider />
-      </v-list-group>
+      </v-list-group-->
     </v-list>
     <v-divider />
   </v-navigation-drawer>
 </template>
 <script setup lang="ts">
-import type { VListItem } from "vuetify/components";
 import { ref } from "vue";
 import { getLanguageStore } from "@/stores/LanguageStore";
 import { getUserStore } from "@/stores/UserStore";
+import { useAppStore } from "@/stores/app";
 import NavGroup from "../models/NavGroup";
 import NavItem from "../models/NavItem";
 
@@ -132,6 +160,7 @@ const props = defineProps<{ drawerOpen: boolean }>();
 const userStore = getUserStore();
 const lang = getLanguageStore();
 const route = useRoute();
+const appStore = useAppStore();
 
 watch(route, (to, from) => {
   // eslint-disable-next-line unicorn/no-console-spaces

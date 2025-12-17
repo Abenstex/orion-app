@@ -47,6 +47,14 @@
         </v-chip>
       </template>
 
+      <template v-slot:item.objectType="{ item }">
+        <span>{{ lang.trE(item.objectType, objectTypeItems) }}</span>
+      </template>
+
+      <template v-slot:item.dataType="{ item }">
+        <span>{{ lang.trE(item.dataType, dataTypeItems) }}</span>
+      </template>
+
       <template v-slot:item.createdDate="{ item }">
         <span>{{ new Date(Number(item.createdDate)).toLocaleString() }}</span>
       </template>
@@ -94,6 +102,7 @@ import { getLanguageStore } from "@/stores/LanguageStore";
 import { getStatusStore } from "@/stores/StatusStore";
 import { getFilterDescriptorStore } from "@/stores/FilterDescriptorStore";
 import type { RequestFilterDescriptor } from "@/generated/orion_common";
+import { fromFilterDataType, fromObjectType, type EnumItemHelper } from "@/models/EnumItemHelper";
 
 type ReadonlyHeaders = VDataTable["$props"]["headers"];
 
@@ -105,6 +114,9 @@ const readOnly = ref<boolean>(false);
 const filterDescriptorToEdit = ref<RequestFilterDescriptor | undefined>(undefined);
 const showConfirmDialog = ref<boolean>(false);
 const filterDescriptorToDelete = ref<RequestFilterDescriptor | undefined>(undefined);
+
+const objectTypeItems = ref<EnumItemHelper[]>(fromObjectType());
+const dataTypeItems = ref<EnumItemHelper[]>(fromFilterDataType());
 
 const headers: ReadonlyHeaders = [
   {
@@ -124,7 +136,7 @@ const headers: ReadonlyHeaders = [
   },
 ];
 
-onMounted(() => {
+onMounted(async () => {
     getStatusStore().loading = true;
     filterStore.getAllFilterDescriptors();
     getStatusStore().loading = false;

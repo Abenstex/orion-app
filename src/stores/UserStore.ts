@@ -79,6 +79,7 @@ export const getUserStore = defineStore('userStore', () => {
         token.value = data.token
         await getLanguageStore().getTranslationsForLocale({ language: import.meta.env.VITE_DEFAULT_LANGUAGE, country: '' })
         await useAppStore().loadAllLocales();
+        await useAppStore().loadAllAppGroups();
         await getConfigParameterStore().getAllParameters();
         await getConfigParameterStore().startListening();
         user.value = data.user!

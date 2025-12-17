@@ -26,6 +26,7 @@ import { useAppStore } from './app'
 import { getHeartbeatStore } from './HeartbeatStore'
 import { getStatusStore } from './StatusStore'
 import { getUserStore } from './UserStore'
+import type { EnumItemHelper } from '@/models/EnumItemHelper'
 
 export const getLanguageStore = defineStore('languageStore', () => {
   const loadedTranslations = ref<Translation[]>([])
@@ -39,6 +40,16 @@ export const getLanguageStore = defineStore('languageStore', () => {
   )
   const allLocales = ref<TranslLocale[]>([])
   const fallBackTranslations = ref<Map<string, Map<string, string>>>(new Map())
+
+  function trE(key: number, enumHelpers: EnumItemHelper[]): string {
+    for (const helper of enumHelpers) {
+      if (helper.value === key) {
+        return tr(`Enum.${helper.label}`);
+      }
+    }
+
+    return key.toString();
+  }
 
   function trP (key: string, parameters: any[]): string {
     let translated = true
@@ -374,7 +385,7 @@ export const getLanguageStore = defineStore('languageStore', () => {
     untranslatedTranslations,
     tr,
     loadedTranslations,
-    trP,
+    trP, trE,
     getAllLocales,
     allLocales,
     getTranslationsForLocale,
