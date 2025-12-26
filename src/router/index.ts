@@ -84,6 +84,14 @@ const routes: RouteRecordRaw[] = [
       title: "General.Status",
     },
   },
+  {
+    path: "/basicdata/status_rule",
+    name: "Status Transition Rules",
+    component: () => import("../components/misc/StatusTransitionRuleView.vue"),
+    meta: {
+      title: "General.StatusTransitionRule",
+    },
+  },
 ];
 
 const router = createRouter({

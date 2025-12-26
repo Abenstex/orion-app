@@ -80,7 +80,7 @@ export const getUserStore = defineStore('userStore', () => {
         await getLanguageStore().getTranslationsForLocale({ language: import.meta.env.VITE_DEFAULT_LANGUAGE, country: '' })
         await useAppStore().loadAllLocales();
         await useAppStore().loadAllAppGroups();
-        await getConfigParameterStore().getAllParameters();
+        await getConfigParameterStore().getParameters();
         await getConfigParameterStore().startListening();
         user.value = data.user!
         tokenExpiresDate.value = new Date(Number(data.tokenExpires));

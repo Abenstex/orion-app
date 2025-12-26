@@ -18,12 +18,13 @@ import type ConnectionInformation from "@/models/ConnectionInformation";
 import { getHeartbeatStore } from "./HeartbeatStore";
 import { buildRequestHeader, getDefaultRestHeader } from "@/utils/CommUtils";
 import axios from "axios";
+import { SelectableBaseInformation } from "@/models/SelectableBaseInformation";
 
 export const getBasicDataStatusStore = defineStore(
   "basicDataStatusStore",
   () => {
     const status = ref<Status[]>([]);
-    const statusStore = getStatusStore();
+    //const statusStore = getStatusStore();
     const appName: string = "orion.status";
 
     function replaceStatus(statusToReplace: Status) {
@@ -266,6 +267,15 @@ export const getBasicDataStatusStore = defineStore(
       }
     }
 
+    function toSelectableBaseInformation(): SelectableBaseInformation[] {
+      let infos: SelectableBaseInformation[] = [];
+      for (const obj of status.value) {
+        infos.push(new SelectableBaseInformation(obj.baseInformation!));
+      }
+
+      return infos;
+    }
+
     return {
       status,
       getAllStatus,
@@ -273,6 +283,7 @@ export const getBasicDataStatusStore = defineStore(
       deleteStatus,
       newStatus,
       getStatusWithFilter,
+      toSelectableBaseInformation
     };
   }
 );

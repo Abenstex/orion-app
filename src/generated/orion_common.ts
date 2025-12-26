@@ -475,7 +475,11 @@ export enum ObjectType {
     /**
      * @generated from protobuf enum value: OT_REQUEST_FILTER_DESCRIPTOR = 7;
      */
-    OT_REQUEST_FILTER_DESCRIPTOR = 7
+    OT_REQUEST_FILTER_DESCRIPTOR = 7,
+    /**
+     * @generated from protobuf enum value: OT_STATUS_TRANSITION_RULE = 8;
+     */
+    OT_STATUS_TRANSITION_RULE = 8
 }
 /**
  * @generated from protobuf enum FilterDataType

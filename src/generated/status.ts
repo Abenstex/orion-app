@@ -34,6 +34,23 @@ export interface Status {
     isUsable: boolean;
 }
 /**
+ * @generated from protobuf message StatusTransitionRule
+ */
+export interface StatusTransitionRule {
+    /**
+     * @generated from protobuf field: BaseInformation baseInformation = 1
+     */
+    baseInformation?: BaseInformation;
+    /**
+     * @generated from protobuf field: Status fromStatus = 2
+     */
+    fromStatus?: Status;
+    /**
+     * @generated from protobuf field: repeated Status possibleNextStatus = 3
+     */
+    possibleNextStatus: Status[];
+}
+/**
  * @generated from protobuf message AddStatusRequest
  */
 export interface AddStatusRequest {
@@ -124,6 +141,71 @@ export interface StatusDeletedEvent {
      */
     id: string;
 }
+/**
+ * @generated from protobuf message AddStatusTransitionRuleRequest
+ */
+export interface AddStatusTransitionRuleRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: StatusTransitionRule rule = 2
+     */
+    rule?: StatusTransitionRule;
+}
+/**
+ * @generated from protobuf message UpdateStatusTransitionRuleRequest
+ */
+export interface UpdateStatusTransitionRuleRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: StatusTransitionRule rule = 2
+     */
+    rule?: StatusTransitionRule;
+}
+/**
+ * @generated from protobuf message DeleteStatusTransitionRuleRequest
+ */
+export interface DeleteStatusTransitionRuleRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: string ruleId = 2
+     */
+    ruleId: string;
+}
+/**
+ * @generated from protobuf message GetStatusTransitionRuleRequest
+ */
+export interface GetStatusTransitionRuleRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: repeated RequestFilter filters = 2
+     */
+    filters: RequestFilter[];
+}
+/**
+ * @generated from protobuf message GetStatusTransitionRuleReply
+ */
+export interface GetStatusTransitionRuleReply {
+    /**
+     * @generated from protobuf field: ReplyHeader header = 1
+     */
+    header?: ReplyHeader;
+    /**
+     * @generated from protobuf field: repeated StatusTransitionRule rules = 2
+     */
+    rules: StatusTransitionRule[];
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class Status$Type extends MessageType<Status> {
     constructor() {
@@ -186,6 +268,67 @@ class Status$Type extends MessageType<Status> {
  * @generated MessageType for protobuf message Status
  */
 export const Status = new Status$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StatusTransitionRule$Type extends MessageType<StatusTransitionRule> {
+    constructor() {
+        super("StatusTransitionRule", [
+            { no: 1, name: "baseInformation", kind: "message", T: () => BaseInformation },
+            { no: 2, name: "fromStatus", kind: "message", T: () => Status },
+            { no: 3, name: "possibleNextStatus", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Status }
+        ]);
+    }
+    create(value?: PartialMessage<StatusTransitionRule>): StatusTransitionRule {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.possibleNextStatus = [];
+        if (value !== undefined)
+            reflectionMergePartial<StatusTransitionRule>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StatusTransitionRule): StatusTransitionRule {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* BaseInformation baseInformation */ 1:
+                    message.baseInformation = BaseInformation.internalBinaryRead(reader, reader.uint32(), options, message.baseInformation);
+                    break;
+                case /* Status fromStatus */ 2:
+                    message.fromStatus = Status.internalBinaryRead(reader, reader.uint32(), options, message.fromStatus);
+                    break;
+                case /* repeated Status possibleNextStatus */ 3:
+                    message.possibleNextStatus.push(Status.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StatusTransitionRule, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* BaseInformation baseInformation = 1; */
+        if (message.baseInformation)
+            BaseInformation.internalBinaryWrite(message.baseInformation, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* Status fromStatus = 2; */
+        if (message.fromStatus)
+            Status.internalBinaryWrite(message.fromStatus, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* repeated Status possibleNextStatus = 3; */
+        for (let i = 0; i < message.possibleNextStatus.length; i++)
+            Status.internalBinaryWrite(message.possibleNextStatus[i], writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message StatusTransitionRule
+ */
+export const StatusTransitionRule = new StatusTransitionRule$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddStatusRequest$Type extends MessageType<AddStatusRequest> {
     constructor() {
@@ -561,3 +704,271 @@ class StatusDeletedEvent$Type extends MessageType<StatusDeletedEvent> {
  * @generated MessageType for protobuf message StatusDeletedEvent
  */
 export const StatusDeletedEvent = new StatusDeletedEvent$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AddStatusTransitionRuleRequest$Type extends MessageType<AddStatusTransitionRuleRequest> {
+    constructor() {
+        super("AddStatusTransitionRuleRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "rule", kind: "message", T: () => StatusTransitionRule }
+        ]);
+    }
+    create(value?: PartialMessage<AddStatusTransitionRuleRequest>): AddStatusTransitionRuleRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<AddStatusTransitionRuleRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: AddStatusTransitionRuleRequest): AddStatusTransitionRuleRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* StatusTransitionRule rule */ 2:
+                    message.rule = StatusTransitionRule.internalBinaryRead(reader, reader.uint32(), options, message.rule);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: AddStatusTransitionRuleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* StatusTransitionRule rule = 2; */
+        if (message.rule)
+            StatusTransitionRule.internalBinaryWrite(message.rule, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message AddStatusTransitionRuleRequest
+ */
+export const AddStatusTransitionRuleRequest = new AddStatusTransitionRuleRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateStatusTransitionRuleRequest$Type extends MessageType<UpdateStatusTransitionRuleRequest> {
+    constructor() {
+        super("UpdateStatusTransitionRuleRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "rule", kind: "message", T: () => StatusTransitionRule }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateStatusTransitionRuleRequest>): UpdateStatusTransitionRuleRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<UpdateStatusTransitionRuleRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateStatusTransitionRuleRequest): UpdateStatusTransitionRuleRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* StatusTransitionRule rule */ 2:
+                    message.rule = StatusTransitionRule.internalBinaryRead(reader, reader.uint32(), options, message.rule);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateStatusTransitionRuleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* StatusTransitionRule rule = 2; */
+        if (message.rule)
+            StatusTransitionRule.internalBinaryWrite(message.rule, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message UpdateStatusTransitionRuleRequest
+ */
+export const UpdateStatusTransitionRuleRequest = new UpdateStatusTransitionRuleRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DeleteStatusTransitionRuleRequest$Type extends MessageType<DeleteStatusTransitionRuleRequest> {
+    constructor() {
+        super("DeleteStatusTransitionRuleRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "ruleId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<DeleteStatusTransitionRuleRequest>): DeleteStatusTransitionRuleRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.ruleId = "";
+        if (value !== undefined)
+            reflectionMergePartial<DeleteStatusTransitionRuleRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: DeleteStatusTransitionRuleRequest): DeleteStatusTransitionRuleRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* string ruleId */ 2:
+                    message.ruleId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: DeleteStatusTransitionRuleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* string ruleId = 2; */
+        if (message.ruleId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.ruleId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message DeleteStatusTransitionRuleRequest
+ */
+export const DeleteStatusTransitionRuleRequest = new DeleteStatusTransitionRuleRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetStatusTransitionRuleRequest$Type extends MessageType<GetStatusTransitionRuleRequest> {
+    constructor() {
+        super("GetStatusTransitionRuleRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "filters", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => RequestFilter }
+        ]);
+    }
+    create(value?: PartialMessage<GetStatusTransitionRuleRequest>): GetStatusTransitionRuleRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.filters = [];
+        if (value !== undefined)
+            reflectionMergePartial<GetStatusTransitionRuleRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetStatusTransitionRuleRequest): GetStatusTransitionRuleRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* repeated RequestFilter filters */ 2:
+                    message.filters.push(RequestFilter.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetStatusTransitionRuleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* repeated RequestFilter filters = 2; */
+        for (let i = 0; i < message.filters.length; i++)
+            RequestFilter.internalBinaryWrite(message.filters[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message GetStatusTransitionRuleRequest
+ */
+export const GetStatusTransitionRuleRequest = new GetStatusTransitionRuleRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetStatusTransitionRuleReply$Type extends MessageType<GetStatusTransitionRuleReply> {
+    constructor() {
+        super("GetStatusTransitionRuleReply", [
+            { no: 1, name: "header", kind: "message", T: () => ReplyHeader },
+            { no: 2, name: "rules", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => StatusTransitionRule }
+        ]);
+    }
+    create(value?: PartialMessage<GetStatusTransitionRuleReply>): GetStatusTransitionRuleReply {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.rules = [];
+        if (value !== undefined)
+            reflectionMergePartial<GetStatusTransitionRuleReply>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetStatusTransitionRuleReply): GetStatusTransitionRuleReply {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* ReplyHeader header */ 1:
+                    message.header = ReplyHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* repeated StatusTransitionRule rules */ 2:
+                    message.rules.push(StatusTransitionRule.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetStatusTransitionRuleReply, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* ReplyHeader header = 1; */
+        if (message.header)
+            ReplyHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* repeated StatusTransitionRule rules = 2; */
+        for (let i = 0; i < message.rules.length; i++)
+            StatusTransitionRule.internalBinaryWrite(message.rules[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message GetStatusTransitionRuleReply
+ */
+export const GetStatusTransitionRuleReply = new GetStatusTransitionRuleReply$Type();

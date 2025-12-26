@@ -18,6 +18,7 @@ declare module 'vue' {
     EditParameterDialog: typeof import('./components/misc/EditParameterDialog.vue')['default']
     EditRequestFilterDescriptorDialog: typeof import('./components/misc/EditRequestFilterDescriptorDialog.vue')['default']
     EditStatusDialog: typeof import('./components/misc/EditStatusDialog.vue')['default']
+    EditStatusTransitionRuleDialog: typeof import('./components/misc/EditStatusTransitionRuleDialog.vue')['default']
     EditTranslationDialog: typeof import('./components/ui/EditTranslationDialog.vue')['default']
     HeartbeatDetailsView: typeof import('./components/admin/HeartbeatDetailsView.vue')['default']
     HeartbeatView: typeof import('./components/admin/HeartbeatView.vue')['default']
@@ -30,6 +31,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SideBar: typeof import('./components/SideBar.vue')['default']
     SpecEditor: typeof import('./components/spec/SpecEditor.vue')['default']
+    StatusTransitionRuleView: typeof import('./components/misc/StatusTransitionRuleView.vue')['default']
     StatusView: typeof import('./components/misc/StatusView.vue')['default']
     TranslationsView: typeof import('./components/ui/TranslationsView.vue')['default']
   }

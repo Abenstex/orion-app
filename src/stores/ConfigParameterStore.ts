@@ -18,7 +18,7 @@ import { getHeartbeatStore } from "./HeartbeatStore";
 import { buildRequestHeader, getDefaultRestHeader } from "@/utils/CommUtils";
 import axios from "axios";
 import { useAppStore } from "./app";
-import { ObjectType, ReplyHeader, SaveReply } from "@/generated/orion_common";
+import { ObjectType, ReplyHeader, RequestFilter, SaveReply } from "@/generated/orion_common";
 import { newBaseInformation } from "@/utils/Utils";
 
 export const getConfigParameterStore = defineStore(
@@ -388,7 +388,7 @@ export const getConfigParameterStore = defineStore(
       }
     }
 
-    async function getAllParameters() {
+    async function getParameters(filters: RequestFilter[] = []) {
       try {
         const connInfo: ConnectionInformation | undefined =
           getHeartbeatStore().getBestSuitedConnection(appName);
@@ -401,7 +401,7 @@ export const getConfigParameterStore = defineStore(
         parameters.value = [];
         const request: GetConfigParameterRequest = {
           header: buildRequestHeader(),
-          filters: [],
+          filters: filters,
         };
         const { data } = await axios.post<GetConfigParameterReply>(
           connInfo.toAddress() + "/api/v1/misc/parameters/get",
@@ -434,7 +434,7 @@ export const getConfigParameterStore = defineStore(
 
     return {
       parameters,
-      getAllParameters,
+      getParameters,
       getCachedParameter,
       startListening,
       saveParameter,
