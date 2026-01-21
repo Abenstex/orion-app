@@ -95,7 +95,7 @@
 import { getLanguageStore } from "@/stores/LanguageStore";
 import { getBasicDataStatusStore } from "@/stores/BasicDataStatusStore";
 import BaseInformationWidget from "../BaseInformationWidget.vue";
-import { type StatusTransitionRule } from "@/generated/status";
+import { Status, type StatusTransitionRule } from "@/generated/status";
 import { getStatusStore } from "@/stores/StatusStore";
 import { EnumItemHelper, fromObjectType } from "@/models/EnumItemHelper";
 import {
@@ -141,6 +141,13 @@ onUpdated(async () => {
     fromStatus.value = basicStatusStore.toSelectableBaseInformation();
     toStatus.value = basicStatusStore.toSelectableBaseInformation();
   }
+  if (props.ruleToEdit?.baseInformation === undefined && props.ruleToEdit?.baseInformation!.name.length == 0
+    && props.ruleToEdit?.fromStatus === undefined
+    && props.ruleToEdit.possibleNextStatus.length == 0) {
+    canSave.value = false;
+  } else {
+    canSave.value = true;
+  }
   getStatusStore().loading = false;
 });
 
@@ -161,18 +168,16 @@ function onFromStatusSelected(status: SelectableBaseInformation) {
       to.isSelectable = true;
     }
   }
+  props.ruleToEdit!.fromStatus = status.infoObject as Status;
 }
 
 function onToStatusSelected(status: SelectableBaseInformation) {
-  /*for (const to of toStatus.value) {
-    if (to.info?.id?.uuid === status.info?.id?.uuid) {
-      continue;
-    }
-    if (to.selected) {
-      to.selected = false;
-    }
-  }*/
-  console.log(`To status selected - ${JSON.stringify(status)}`);
+  const selectedStatus = status.infoObject as Status;
+  if (status.selected) {
+    props.ruleToEdit!.possibleNextStatus.push(selectedStatus);
+  } else {
+    props.ruleToEdit!.possibleNextStatus = props.ruleToEdit!.possibleNextStatus.filter(stat => stat.baseInformation!.id!.uuid !== status.info?.id!.uuid);
+  }
 }
 
 function handleBaseInformationUpdates(newText: string, textFieldId: string) {

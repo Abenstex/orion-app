@@ -3,13 +3,17 @@ import {
   ReplyHeader,
   RequestFilter,
   SaveReply,
+  Comment,
+  BaseInformation,
 } from "@/generated/orion_common";
 import {
   AddStatusRequest,
+  ChangeStatusRequest,
   DeleteStatusRequest,
   GetStatusReply,
   GetStatusRequest,
   Status,
+  StatusChangeInformation,
   UpdateStatusRequest,
 } from "@/generated/status";
 import { newBaseInformation } from "@/utils/Utils";
@@ -51,7 +55,7 @@ export const getBasicDataStatusStore = defineStore(
       };
     }
 
-    async function saveStatus(status: Status) {
+    async function saveStatus(status: Status, comment: Comment | undefined = undefined) {
       if (
         status.baseInformation?.id !== undefined &&
         status.baseInformation.id.uuid.length > 0
@@ -62,7 +66,10 @@ export const getBasicDataStatusStore = defineStore(
       }
     }
 
-    async function addStatus(statusToSave: Status) {
+    async function addStatus(
+      statusToSave: Status,
+      comment?: Comment | undefined
+    ) {
       try {
         const connInfo: ConnectionInformation | undefined =
           getHeartbeatStore().getBestSuitedConnection(appName);
@@ -73,7 +80,7 @@ export const getBasicDataStatusStore = defineStore(
           return;
         }
         const request: AddStatusRequest = {
-          header: buildRequestHeader(),
+          header: buildRequestHeader(comment),
           status: statusToSave,
         };
         const { data } = await axios.post<SaveReply>(
@@ -105,7 +112,10 @@ export const getBasicDataStatusStore = defineStore(
       }
     }
 
-    async function updateStatus(statusToSave: Status) {
+    async function updateStatus(
+      statusToSave: Status,
+      comment?: Comment | undefined
+    ) {
       try {
         const connInfo: ConnectionInformation | undefined =
           getHeartbeatStore().getBestSuitedConnection(appName);
@@ -116,7 +126,7 @@ export const getBasicDataStatusStore = defineStore(
           return;
         }
         const request: UpdateStatusRequest = {
-          header: buildRequestHeader(),
+          header: buildRequestHeader(comment),
           status: statusToSave,
         };
         const { data } = await axios.post<SaveReply>(
@@ -145,7 +155,7 @@ export const getBasicDataStatusStore = defineStore(
       }
     }
 
-    async function deleteStatus(statusToDelete: Status) {
+    async function deleteStatus(statusToDelete: Status, comment?: Comment | undefined) {
       try {
         const connInfo: ConnectionInformation | undefined =
           getHeartbeatStore().getBestSuitedConnection(appName);
@@ -156,7 +166,7 @@ export const getBasicDataStatusStore = defineStore(
           return;
         }
         const request: DeleteStatusRequest = {
-          header: buildRequestHeader(),
+          header: buildRequestHeader(comment),
           statusId: statusToDelete.baseInformation!.id!.uuid,
         };
         const { data } = await axios.post<ReplyHeader>(
@@ -226,6 +236,59 @@ export const getBasicDataStatusStore = defineStore(
       }
     }
 
+    async function changeStatus(
+      baseInfo: BaseInformation,
+      fromStatus: Status,
+      toStatus: Status,
+      comment: Comment | undefined = undefined
+    ) {
+      try {
+        const connInfo: ConnectionInformation | undefined =
+          getHeartbeatStore().getBestSuitedConnection(appName);
+        if (connInfo == undefined) {
+          getStatusStore().setError(
+            `No connection found for app ${appName} to change the status`
+          );
+          return;
+        }
+        status.value = [];
+        const info: StatusChangeInformation = {
+          objectId: baseInfo.id!.uuid,
+          objectName: baseInfo.name!,
+          objectType: baseInfo.objectType,
+          fromStatusId: fromStatus.baseInformation!.id!.uuid,
+          fromStatusName: fromStatus.baseInformation!.name,
+          toStatusId: toStatus.baseInformation!.id!.uuid,
+          toStatusName: toStatus.baseInformation!.name,
+        };
+        const request: ChangeStatusRequest = {
+          header: buildRequestHeader(comment),
+          info: info,
+        };
+        const { data } = await axios.post<ReplyHeader>(
+          connInfo.toAddress() + "/api/v1/misc/status/change",
+          request,
+          {
+            headers: getDefaultRestHeader("ChangeStatus"),
+          }
+        );
+        if (!data.successful) {
+          getStatusStore().setError(data.errorMessage);
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const reply: GetStatusReply = error.response!.data;
+          getStatusStore().setError(
+            reply.header?.errorCode + " // " + reply.header?.errorMessage
+          );
+          return;
+        } else {
+          getStatusStore().setError(JSON.stringify(error));
+          return;
+        }
+      }
+    }
+
     async function getAllStatus() {
       try {
         const connInfo: ConnectionInformation | undefined =
@@ -270,7 +333,7 @@ export const getBasicDataStatusStore = defineStore(
     function toSelectableBaseInformation(): SelectableBaseInformation[] {
       let infos: SelectableBaseInformation[] = [];
       for (const obj of status.value) {
-        infos.push(new SelectableBaseInformation(obj.baseInformation!));
+        infos.push(new SelectableBaseInformation(obj.baseInformation!, obj));
       }
 
       return infos;
@@ -283,7 +346,8 @@ export const getBasicDataStatusStore = defineStore(
       deleteStatus,
       newStatus,
       getStatusWithFilter,
-      toSelectableBaseInformation
+      toSelectableBaseInformation,
+      changeStatus
     };
   }
 );

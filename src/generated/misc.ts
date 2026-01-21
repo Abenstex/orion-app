@@ -10,6 +10,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { Uuid } from "./orion_common";
 import { RequestFilterDescriptor } from "./orion_common";
 import { EventHeader } from "./orion_common";
 import { RequestFilter } from "./orion_common";
@@ -241,6 +242,82 @@ export interface GetRequestFilterDescriptorReply {
      * @generated from protobuf field: repeated RequestFilterDescriptor descriptors = 2
      */
     descriptors: RequestFilterDescriptor[];
+}
+/**
+ * @generated from protobuf message UserMessage
+ */
+export interface UserMessage {
+    /**
+     * @generated from protobuf field: string text = 1
+     */
+    text: string;
+    /**
+     * @generated from protobuf field: string subject = 2
+     */
+    subject: string;
+    /**
+     * @generated from protobuf field: repeated string recipients = 3
+     */
+    recipients: string[];
+    /**
+     * @generated from protobuf field: int64 readDate = 4
+     */
+    readDate: bigint;
+    /**
+     * @generated from protobuf field: int64 sendDate = 5
+     */
+    sendDate: bigint;
+    /**
+     * @generated from protobuf field: string sender = 6
+     */
+    sender: string;
+    /**
+     * @generated from protobuf field: Uuid id = 7
+     */
+    id?: Uuid;
+}
+/**
+ * @generated from protobuf message SendUserMessageRequest
+ */
+export interface SendUserMessageRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: UserMessage message = 2
+     */
+    message?: UserMessage;
+}
+/**
+ * @generated from protobuf message GetUserMessageRequest
+ */
+export interface GetUserMessageRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: string userId = 2
+     */
+    userId: string;
+}
+/**
+ * @generated from protobuf message MarkUserMessageAsReadRequest
+ */
+export interface MarkUserMessageAsReadRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: string messageId = 2
+     */
+    messageId: string;
+    /**
+     * @generated from protobuf field: string userId = 3
+     */
+    userId: string;
 }
 /**
  * @generated from protobuf enum ParameterDataType
@@ -1157,3 +1234,266 @@ class GetRequestFilterDescriptorReply$Type extends MessageType<GetRequestFilterD
  * @generated MessageType for protobuf message GetRequestFilterDescriptorReply
  */
 export const GetRequestFilterDescriptorReply = new GetRequestFilterDescriptorReply$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UserMessage$Type extends MessageType<UserMessage> {
+    constructor() {
+        super("UserMessage", [
+            { no: 1, name: "text", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "subject", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "recipients", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "readDate", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 5, name: "sendDate", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 6, name: "sender", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "id", kind: "message", T: () => Uuid }
+        ]);
+    }
+    create(value?: PartialMessage<UserMessage>): UserMessage {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.text = "";
+        message.subject = "";
+        message.recipients = [];
+        message.readDate = 0n;
+        message.sendDate = 0n;
+        message.sender = "";
+        if (value !== undefined)
+            reflectionMergePartial<UserMessage>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UserMessage): UserMessage {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string text */ 1:
+                    message.text = reader.string();
+                    break;
+                case /* string subject */ 2:
+                    message.subject = reader.string();
+                    break;
+                case /* repeated string recipients */ 3:
+                    message.recipients.push(reader.string());
+                    break;
+                case /* int64 readDate */ 4:
+                    message.readDate = reader.int64().toBigInt();
+                    break;
+                case /* int64 sendDate */ 5:
+                    message.sendDate = reader.int64().toBigInt();
+                    break;
+                case /* string sender */ 6:
+                    message.sender = reader.string();
+                    break;
+                case /* Uuid id */ 7:
+                    message.id = Uuid.internalBinaryRead(reader, reader.uint32(), options, message.id);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UserMessage, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string text = 1; */
+        if (message.text !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.text);
+        /* string subject = 2; */
+        if (message.subject !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.subject);
+        /* repeated string recipients = 3; */
+        for (let i = 0; i < message.recipients.length; i++)
+            writer.tag(3, WireType.LengthDelimited).string(message.recipients[i]);
+        /* int64 readDate = 4; */
+        if (message.readDate !== 0n)
+            writer.tag(4, WireType.Varint).int64(message.readDate);
+        /* int64 sendDate = 5; */
+        if (message.sendDate !== 0n)
+            writer.tag(5, WireType.Varint).int64(message.sendDate);
+        /* string sender = 6; */
+        if (message.sender !== "")
+            writer.tag(6, WireType.LengthDelimited).string(message.sender);
+        /* Uuid id = 7; */
+        if (message.id)
+            Uuid.internalBinaryWrite(message.id, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message UserMessage
+ */
+export const UserMessage = new UserMessage$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class SendUserMessageRequest$Type extends MessageType<SendUserMessageRequest> {
+    constructor() {
+        super("SendUserMessageRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "message", kind: "message", T: () => UserMessage }
+        ]);
+    }
+    create(value?: PartialMessage<SendUserMessageRequest>): SendUserMessageRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<SendUserMessageRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SendUserMessageRequest): SendUserMessageRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* UserMessage message */ 2:
+                    message.message = UserMessage.internalBinaryRead(reader, reader.uint32(), options, message.message);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: SendUserMessageRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* UserMessage message = 2; */
+        if (message.message)
+            UserMessage.internalBinaryWrite(message.message, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message SendUserMessageRequest
+ */
+export const SendUserMessageRequest = new SendUserMessageRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetUserMessageRequest$Type extends MessageType<GetUserMessageRequest> {
+    constructor() {
+        super("GetUserMessageRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "userId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetUserMessageRequest>): GetUserMessageRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.userId = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetUserMessageRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetUserMessageRequest): GetUserMessageRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* string userId */ 2:
+                    message.userId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetUserMessageRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* string userId = 2; */
+        if (message.userId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.userId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message GetUserMessageRequest
+ */
+export const GetUserMessageRequest = new GetUserMessageRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class MarkUserMessageAsReadRequest$Type extends MessageType<MarkUserMessageAsReadRequest> {
+    constructor() {
+        super("MarkUserMessageAsReadRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "messageId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "userId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<MarkUserMessageAsReadRequest>): MarkUserMessageAsReadRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.messageId = "";
+        message.userId = "";
+        if (value !== undefined)
+            reflectionMergePartial<MarkUserMessageAsReadRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: MarkUserMessageAsReadRequest): MarkUserMessageAsReadRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* string messageId */ 2:
+                    message.messageId = reader.string();
+                    break;
+                case /* string userId */ 3:
+                    message.userId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: MarkUserMessageAsReadRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* string messageId = 2; */
+        if (message.messageId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.messageId);
+        /* string userId = 3; */
+        if (message.userId !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.userId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message MarkUserMessageAsReadRequest
+ */
+export const MarkUserMessageAsReadRequest = new MarkUserMessageAsReadRequest$Type();

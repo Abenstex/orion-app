@@ -169,6 +169,10 @@ export interface Comment {
      * @generated from protobuf field: string createdBy = 4
      */
     createdBy: string;
+    /**
+     * @generated from protobuf field: optional string service = 5
+     */
+    service?: string;
 }
 /**
  * @generated from protobuf message EventHeader
@@ -945,7 +949,8 @@ class Comment$Type extends MessageType<Comment> {
             { no: 1, name: "id", kind: "message", T: () => Uuid },
             { no: 2, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "createdDate", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 4, name: "createdBy", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "createdBy", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "service", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<Comment>): Comment {
@@ -974,6 +979,9 @@ class Comment$Type extends MessageType<Comment> {
                 case /* string createdBy */ 4:
                     message.createdBy = reader.string();
                     break;
+                case /* optional string service */ 5:
+                    message.service = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -998,6 +1006,9 @@ class Comment$Type extends MessageType<Comment> {
         /* string createdBy = 4; */
         if (message.createdBy !== "")
             writer.tag(4, WireType.LengthDelimited).string(message.createdBy);
+        /* optional string service = 5; */
+        if (message.service !== undefined)
+            writer.tag(5, WireType.LengthDelimited).string(message.service);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

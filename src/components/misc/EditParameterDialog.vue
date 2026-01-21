@@ -43,9 +43,7 @@
 </template>
 <script setup lang="ts">
 import type { ConfigParameter } from "@/generated/misc";
-import type { BaseInformation } from "@/generated/orion_common";
 import { getLanguageStore } from "@/stores/LanguageStore";
-import { toReadableDateTime } from "@/utils/Utils";
 import BaseInformationWidget from "../BaseInformationWidget.vue";
 
 const canSave = ref<boolean>(false);

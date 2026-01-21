@@ -77,6 +77,56 @@ export interface UpdateStatusRequest {
     status?: Status;
 }
 /**
+ * @generated from protobuf message ChangeStatusRequest
+ */
+export interface ChangeStatusRequest {
+    /**
+     * @generated from protobuf field: RequestHeader header = 1
+     */
+    header?: RequestHeader;
+    /**
+     * @generated from protobuf field: StatusChangeInformation info = 2
+     */
+    info?: StatusChangeInformation;
+}
+/**
+ * @generated from protobuf message StatusChangeInformation
+ */
+export interface StatusChangeInformation {
+    /**
+     * @generated from protobuf field: optional int64 entryNo = 1
+     */
+    entryNo?: bigint;
+    /**
+     * @generated from protobuf field: string objectId = 2
+     */
+    objectId: string;
+    /**
+     * @generated from protobuf field: ObjectType objectType = 3
+     */
+    objectType: ObjectType;
+    /**
+     * @generated from protobuf field: string fromStatusId = 4
+     */
+    fromStatusId: string;
+    /**
+     * @generated from protobuf field: string toStatusId = 5
+     */
+    toStatusId: string;
+    /**
+     * @generated from protobuf field: string fromStatusName = 6
+     */
+    fromStatusName: string;
+    /**
+     * @generated from protobuf field: string toStatusName = 7
+     */
+    toStatusName: string;
+    /**
+     * @generated from protobuf field: string objectName = 8
+     */
+    objectName: string;
+}
+/**
  * @generated from protobuf message DeleteStatusRequest
  */
 export interface DeleteStatusRequest {
@@ -127,6 +177,19 @@ export interface StatusSavedEvent {
      * @generated from protobuf field: Status status = 2
      */
     status?: Status;
+}
+/**
+ * @generated from protobuf message StatusChangedEvent
+ */
+export interface StatusChangedEvent {
+    /**
+     * @generated from protobuf field: EventHeader header = 1
+     */
+    header?: EventHeader;
+    /**
+     * @generated from protobuf field: StatusChangeInformation statusChangeInformation = 2
+     */
+    statusChangeInformation?: StatusChangeInformation;
 }
 /**
  * @generated from protobuf message StatusDeletedEvent
@@ -436,6 +499,161 @@ class UpdateStatusRequest$Type extends MessageType<UpdateStatusRequest> {
  */
 export const UpdateStatusRequest = new UpdateStatusRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class ChangeStatusRequest$Type extends MessageType<ChangeStatusRequest> {
+    constructor() {
+        super("ChangeStatusRequest", [
+            { no: 1, name: "header", kind: "message", T: () => RequestHeader },
+            { no: 2, name: "info", kind: "message", T: () => StatusChangeInformation }
+        ]);
+    }
+    create(value?: PartialMessage<ChangeStatusRequest>): ChangeStatusRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<ChangeStatusRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ChangeStatusRequest): ChangeStatusRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* RequestHeader header */ 1:
+                    message.header = RequestHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* StatusChangeInformation info */ 2:
+                    message.info = StatusChangeInformation.internalBinaryRead(reader, reader.uint32(), options, message.info);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ChangeStatusRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* RequestHeader header = 1; */
+        if (message.header)
+            RequestHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* StatusChangeInformation info = 2; */
+        if (message.info)
+            StatusChangeInformation.internalBinaryWrite(message.info, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message ChangeStatusRequest
+ */
+export const ChangeStatusRequest = new ChangeStatusRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StatusChangeInformation$Type extends MessageType<StatusChangeInformation> {
+    constructor() {
+        super("StatusChangeInformation", [
+            { no: 1, name: "entryNo", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 2, name: "objectId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "objectType", kind: "enum", T: () => ["ObjectType", ObjectType] },
+            { no: 4, name: "fromStatusId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "toStatusId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "fromStatusName", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "toStatusName", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "objectName", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<StatusChangeInformation>): StatusChangeInformation {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.objectId = "";
+        message.objectType = 0;
+        message.fromStatusId = "";
+        message.toStatusId = "";
+        message.fromStatusName = "";
+        message.toStatusName = "";
+        message.objectName = "";
+        if (value !== undefined)
+            reflectionMergePartial<StatusChangeInformation>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StatusChangeInformation): StatusChangeInformation {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional int64 entryNo */ 1:
+                    message.entryNo = reader.int64().toBigInt();
+                    break;
+                case /* string objectId */ 2:
+                    message.objectId = reader.string();
+                    break;
+                case /* ObjectType objectType */ 3:
+                    message.objectType = reader.int32();
+                    break;
+                case /* string fromStatusId */ 4:
+                    message.fromStatusId = reader.string();
+                    break;
+                case /* string toStatusId */ 5:
+                    message.toStatusId = reader.string();
+                    break;
+                case /* string fromStatusName */ 6:
+                    message.fromStatusName = reader.string();
+                    break;
+                case /* string toStatusName */ 7:
+                    message.toStatusName = reader.string();
+                    break;
+                case /* string objectName */ 8:
+                    message.objectName = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StatusChangeInformation, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional int64 entryNo = 1; */
+        if (message.entryNo !== undefined)
+            writer.tag(1, WireType.Varint).int64(message.entryNo);
+        /* string objectId = 2; */
+        if (message.objectId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.objectId);
+        /* ObjectType objectType = 3; */
+        if (message.objectType !== 0)
+            writer.tag(3, WireType.Varint).int32(message.objectType);
+        /* string fromStatusId = 4; */
+        if (message.fromStatusId !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.fromStatusId);
+        /* string toStatusId = 5; */
+        if (message.toStatusId !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.toStatusId);
+        /* string fromStatusName = 6; */
+        if (message.fromStatusName !== "")
+            writer.tag(6, WireType.LengthDelimited).string(message.fromStatusName);
+        /* string toStatusName = 7; */
+        if (message.toStatusName !== "")
+            writer.tag(7, WireType.LengthDelimited).string(message.toStatusName);
+        /* string objectName = 8; */
+        if (message.objectName !== "")
+            writer.tag(8, WireType.LengthDelimited).string(message.objectName);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message StatusChangeInformation
+ */
+export const StatusChangeInformation = new StatusChangeInformation$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class DeleteStatusRequest$Type extends MessageType<DeleteStatusRequest> {
     constructor() {
         super("DeleteStatusRequest", [
@@ -650,6 +868,59 @@ class StatusSavedEvent$Type extends MessageType<StatusSavedEvent> {
  * @generated MessageType for protobuf message StatusSavedEvent
  */
 export const StatusSavedEvent = new StatusSavedEvent$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StatusChangedEvent$Type extends MessageType<StatusChangedEvent> {
+    constructor() {
+        super("StatusChangedEvent", [
+            { no: 1, name: "header", kind: "message", T: () => EventHeader },
+            { no: 2, name: "statusChangeInformation", kind: "message", T: () => StatusChangeInformation }
+        ]);
+    }
+    create(value?: PartialMessage<StatusChangedEvent>): StatusChangedEvent {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<StatusChangedEvent>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StatusChangedEvent): StatusChangedEvent {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* EventHeader header */ 1:
+                    message.header = EventHeader.internalBinaryRead(reader, reader.uint32(), options, message.header);
+                    break;
+                case /* StatusChangeInformation statusChangeInformation */ 2:
+                    message.statusChangeInformation = StatusChangeInformation.internalBinaryRead(reader, reader.uint32(), options, message.statusChangeInformation);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StatusChangedEvent, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* EventHeader header = 1; */
+        if (message.header)
+            EventHeader.internalBinaryWrite(message.header, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* StatusChangeInformation statusChangeInformation = 2; */
+        if (message.statusChangeInformation)
+            StatusChangeInformation.internalBinaryWrite(message.statusChangeInformation, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message StatusChangedEvent
+ */
+export const StatusChangedEvent = new StatusChangedEvent$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class StatusDeletedEvent$Type extends MessageType<StatusDeletedEvent> {
     constructor() {

@@ -1,17 +1,18 @@
-import { RequestHeader } from "@/generated/orion_common";
+import { RequestHeader, Comment } from "@/generated/orion_common";
 import { useAppStore } from "@/stores/app";
 import { getUserStore } from "@/stores/UserStore";
 import type { GrpcWebOptions } from "@protobuf-ts/grpcweb-transport";
 import axios from 'axios';
 
-export function buildRequestHeader(): RequestHeader {
+export function buildRequestHeader(comment?: Comment | undefined): RequestHeader {
     let dummyUser = '';
     if (getUserStore().isLoggedIn) {
         dummyUser = getUserStore().user?.baseInformation!.name!;
     }
     let requestHeader: RequestHeader = {
         senderId: useAppStore().clientId,
-        user: dummyUser
+        user: dummyUser,
+        comment: comment
     }
 
     return requestHeader;

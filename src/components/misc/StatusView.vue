@@ -117,6 +117,12 @@
     :visible="showConfirmDialog" 
     @cancel="showConfirmDialog = false" 
     @ok="remove"/>
+  <comment-dialog v-if="showCommentDialog" 
+    :message="lang.trP('General.Comment.', [statusToEdit?.baseInformation?.name])" 
+    :title="lang.tr('General.AddComment')"
+    @save="saveComment"
+    @cancel="showCommentDialog = false"
+    />
 </template>
 <script setup lang="ts">
 import type { VDataTable } from "vuetify/components";
@@ -124,12 +130,11 @@ import { ref } from "vue";
 import { getBasicDataStatusStore } from "@/stores/BasicDataStatusStore";
 import ConfirmDialog from "../dialogs/ConfirmDialog.vue";
 import { getLanguageStore } from "@/stores/LanguageStore";
-import type { ConfigParameter } from "@/generated/misc";
-import EditParameterDialog from "./EditParameterDialog.vue";
 import { getStatusStore } from "@/stores/StatusStore";
+import { getConfigParameterStore } from "@/stores/ConfigParameterStore";
 import type { Status } from "@/generated/status";
 import { fromObjectType, type EnumItemHelper } from "@/models/EnumItemHelper";
-import { ObjectType, RequestFilter } from "@/generated/orion_common";
+import { Comment, ObjectType, RequestFilter } from "@/generated/orion_common";
 
 type ReadonlyHeaders = VDataTable["$props"]["headers"];
 
@@ -137,12 +142,14 @@ const lang = getLanguageStore();
 const searchString = ref<string>("");
 const basicDataStatusStore = getBasicDataStatusStore();
 const showEditDialog = ref<boolean>(false);
-const showDuplicateDialog = ref<boolean>(false);
+const showCommentDialog = ref<boolean>(false);
+const paramStore = getConfigParameterStore();
 const showQueryBuilderDialog = ref<boolean>(false);
 const readOnly = ref<boolean>(false);
 const statusToEdit = ref<Status | undefined>(undefined);
 const showConfirmDialog = ref<boolean>(false);
 const statusToDelete = ref<Status | undefined>(undefined);
+const commentToSave = ref<Comment | undefined>(undefined);
 
 const objectTypeItems = ref<EnumItemHelper[]>(fromObjectType());
 
@@ -184,9 +191,18 @@ function showDeleteDialog(status: Status) {
   showConfirmDialog.value = true;
 }
 
+function saveComment(comment: Comment) {
+  commentToSave.value = comment;
+  showCommentDialog.value = false;
+}
+
 async function save() {
+  if (paramStore.getCachedParameter(`general.addComment.${ObjectType[ObjectType.OT_STATUS].toString()}`) !== undefined &&
+    paramStore.getCachedParameter(`general.addComment.${ObjectType[ObjectType.OT_STATUS].toString()}`)?.value.toString() === "1") {
+    showCommentDialog.value = true;
+  }
   getStatusStore().loading = true;
-  await basicDataStatusStore.saveStatus(statusToEdit.value!);
+  await basicDataStatusStore.saveStatus(statusToEdit.value!, commentToSave.value);
   getStatusStore().loading = false;
   statusToEdit.value = undefined;
   showEditDialog.value = false;
